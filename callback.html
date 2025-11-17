@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok認証完了</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+            line-height: 1.6;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .code-display {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 TikTok認証が完了しました</h1>
+    
+    <div class="success">
+        <p>認証が正常に完了しました。</p>
+        <p>以下の認証コードをアプリケーションで使用してください。</p>
+    </div>
+    
+    <div class="code-display" id="authCode">
+        認証コードを取得中...
+    </div>
+    
+    <p>このウィンドウは閉じても構いません。</p>
+    <p><a href="index.html">トップページに戻る</a></p>
+    
+    <script>
+        // URLからパラメータを取得
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const error = urlParams.get('error');
+        const errorDescription = urlParams.get('error_description');
+        
+        const authCodeDiv = document.getElementById('authCode');
+        
+        if (error) {
+            authCodeDiv.innerHTML = `
+                <strong style="color: #721c24;">エラー:</strong> ${error}<br>
+                ${errorDescription ? errorDescription : ''}
+            `;
+            authCodeDiv.style.backgroundColor = '#f8d7da';
+            authCodeDiv.style.borderColor = '#f5c6cb';
+        } else if (code) {
+            authCodeDiv.innerHTML = `
+                <strong>認証コード:</strong><br>
+                ${code}
+            `;
+        } else {
+            authCodeDiv.innerHTML = '認証コードが見つかりませんでした。';
+        }
+        
+        // 実際のアプリケーションでは、このコードをサーバーに送信して
+        // アクセストークンと交換します
+        console.log('Authorization code:', code);
+    </script>
+</body>
+</html>
